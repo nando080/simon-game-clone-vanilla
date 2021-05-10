@@ -10,5 +10,79 @@
 </head>
 <body>
     
+    <div class="base1">
+        <div class="base2">
+            
+            <div class="lights-container lights-container-on">
+               <img src="img/green-light-on.svg" alt="green" class="light">
+               <img src="img/red-light-on.svg" alt="red" class="light">
+               <img src="img/yellow-light-on.svg" alt="yellow" class="light">
+               <img src="img/blue-light-on.svg" alt="blue" class="light">
+            </div>
+
+            <div class="lights-container lights-container-off">
+                <img src="img/green-light-off.svg" alt="green" class="light">
+                <img src="img/blue-light-off.svg" alt="blue" class="light">
+                <img src="img/red-light-off.svg" alt="red" class="light">
+                <img src="img/yellow-light-off.svg" alt="yellow" class="light">
+            </div>
+
+            <div class="commands-container">
+                <div class="panel">
+                    <img src="img/panel-bg.svg" alt="control panel" class="panel-bg">
+                    <div class="panel-elements">
+                        <h1 class="title">iSimon</h1>
+                        
+                        <div class="displays container">
+                            <div class="speed-panel">
+                                <h2 class="config-title">speed</h2>
+                                <div class="speed-display-container">
+                                    <div class="control-btn" data-js="decrease-speed">
+                                        <img src="img/adjust-left.svg" alt="decrease-speed">
+                                    </div>
+                                    <div class="speed-display">
+                                        <span class="speed-value">00</span>
+                                    </div>
+                                    <div class="control-btn" data-js="increase-speed">
+                                        <img src="img/adjust-rigth.svg" alt="increase-speed">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="level-panel">
+                                <h2 class="config-title">level</h2>
+                                <div class="level-display-container">
+                                    <div class="control-btn" data-js="decrease-level">
+                                        <img src="img/adjust-left.svg" alt="decrease-level">
+                                    </div>
+                                    <div class="level-display">
+                                        <span class="level-value">00</span>
+                                    </div>
+                                    <div class="control-btn" data-js="increase-level">
+                                        <img src="img/adjust-rigth.svg" alt="increase-level">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="btn-start" data-js="btn-start">
+                    <div class="btn-start-bg">
+                        <img src="img/btn-start-off.svg" alt="start">
+                        <span>start</span>
+                    </div>
+                </div>
+
+                <div class="time-bar-border">
+                    <div class="time-bar-background">
+                        <div class="time-bar"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
