@@ -34,14 +34,15 @@
                     <div class="panel-elements">
                         <h1 class="title">iSimon</h1>
                         
-                        <div class="displays container">
-                            <div class="speed-panel">
-                                <h2 class="config-title">speed</h2>
-                                <div class="speed-display-container">
+                        <div class="control-displays-container">
+
+                            <div class="control-panel">
+                                <h2 class="display-title">speed</h2>
+                                <div class="speed-display-container display-container">
                                     <div class="control-btn" data-js="decrease-speed">
                                         <img src="img/adjust-left.svg" alt="decrease-speed">
                                     </div>
-                                    <div class="speed-display">
+                                    <div class="speed-display value-display">
                                         <span class="speed-value">00</span>
                                     </div>
                                     <div class="control-btn" data-js="increase-speed">
@@ -49,13 +50,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="level-panel">
-                                <h2 class="config-title">level</h2>
-                                <div class="level-display-container">
+                            <div class="control-panel">
+                                <h2 class="display-title">level</h2>
+                                <div class="level-display-container display-container">
                                     <div class="control-btn" data-js="decrease-level">
                                         <img src="img/adjust-left.svg" alt="decrease-level">
                                     </div>
-                                    <div class="level-display">
+                                    <div class="level-display value-display">
                                         <span class="level-value">00</span>
                                     </div>
                                     <div class="control-btn" data-js="increase-level">
@@ -63,6 +64,7 @@
                                     </div>
                                 </div>
                             </div>
+                            
                         </div>
                     </div>
 
@@ -70,8 +72,8 @@
 
                 <div class="btn-start" data-js="btn-start">
                     <div class="btn-start-bg">
-                        <img src="img/btn-start-off.svg" alt="start">
-                        <span>start</span>
+                        <img class="btn-start-img" src="img/btn-start-off.svg" alt="start">
+                        <span class="start-text">start</span>
                     </div>
                 </div>
 
