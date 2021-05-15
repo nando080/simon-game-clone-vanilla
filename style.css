@@ -71,6 +71,14 @@ body {
     right: -15px;
 }
 
+.light-button-off {
+    animation-duration: .5s;
+}
+
+.hidde-button {
+    animation-name: hiddenButton;
+}
+
 @keyframes hiddenButton {
     0% {opacity: 1;}
     50% {opacity: 0;}
@@ -179,6 +187,7 @@ h2.display-title {
     font-size: 2.5rem;
     top: 20px;
     transition: ease .3s;
+    user-select: none;
 }
 
 .btn-start-bg:hover > .start-text {
