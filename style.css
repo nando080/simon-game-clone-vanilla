@@ -64,6 +64,7 @@ body {
 .lights-container-off{
     z-index: 2;
     position: absolute;
+    animation-duration: .5s;
 }
 
 .btn-red-light-off, .btn-blue-light-off {

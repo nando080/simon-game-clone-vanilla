@@ -4,6 +4,7 @@ const controlButtons = document.querySelectorAll('.control-btn')
 const speedValue = document.querySelector('.speed-value')
 const levelValue = document.querySelector('.level-value')
 const timeBar = document.querySelector('.time-bar')
+const errorLights = document.querySelector('.lights-container-off')
 
 let isGameStarted = false
 let speedLevel = 1
@@ -83,7 +84,39 @@ const setNewCPUMove = () => {
     }
 }
 
+const receivePlayerMove = move => {
+    if (playerMoves.length < CPUMoves.length && isGameStarted){
+        playerMoves.push(move)
+    }
+}
 
+const compareMoves = () => {
+    CPUMoves.forEach((item, index) => {
+
+    })
+}
+
+const clearArrayMoves = () => {
+    const actualCPUMoves = CPUMoves.length
+    const actualPlayerMoves = playerMoves.length
+    for (let i = actualCPUMoves; i < 0; i--) {
+        CPUMoves.pop()
+    }
+    for (let i = actualPlayerMoves; i < 0; i--) {
+        playerMoves.pop()
+    }
+    console.log(CPUMoves, playerMoves)
+}
+
+const showError = () => {
+    errorLights.classList.add('hidde-button')
+    buttonSounds['error'].play()
+    setTimeout(() => {
+        errorLights.classList.remove('hidde-button')
+    }, 500)
+    isGameStarted = false
+    clearArrayMoves()
+}
 
 const startGame = () => {
     setNewCPUMove()
@@ -123,8 +156,11 @@ startButton.addEventListener('click', initializeNewGame)
 
 colorButtons.forEach(item => {
     item.addEventListener('click', () => {
-       if (isGameStarted) { const buttonColor = `${item.dataset.color}`
+       if (isGameStarted) {
+        const buttonColor = `${item.dataset.color}`
+        const colorPosition = Number(offColors[buttonColor].dataset.position)
         offColors[buttonColor].classList.add('hidde-button')
+        receivePlayerMove(colorPosition)
         buttonSounds[buttonColor].play()
         setTimeout(() => {
             offColors[buttonColor].classList.remove('hidde-button')
@@ -132,8 +168,4 @@ colorButtons.forEach(item => {
     })
 })
 
-setNewCPUMove()
-setNewCPUMove()
-setNewCPUMove()
-setNewCPUMove()
-console.log(CPUMoves)
+console.log(errorLights)
