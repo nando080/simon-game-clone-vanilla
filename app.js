@@ -35,6 +35,8 @@ const buttonSounds = {
     control: new Audio('./sound/control.mp3')
 }
 
+const offColorsNames = Object.entries(offColors).map(item => item[0])
+
 const controlValues = {
     increaseSpeed () {
         if (speedLevel < maxSpeedLevel) {
@@ -76,7 +78,7 @@ const getMaxNumberOfMoves = () => numberOfMoves[gameLevel - 1]
 
 const getSpeedLimit = () => movementSpeedLimts[speedLevel - 1]
 
-const generateRandomColorValue = () => Math.floor(Math.random() * 4) + 1
+const generateRandomColorValue = () => Math.floor(Math.random() * 4)
 
 const setNewCPUMove = () => {
     if (CPUMoves.length < getMaxNumberOfMoves()) {
@@ -118,8 +120,29 @@ const showError = () => {
     clearArrayMoves()
 }
 
+const turnOnLight = colorName => {
+    offColors[colorName].classList.add('hidde-button')
+    buttonSounds[colorName].play()
+    setTimeout(() => {
+        offColors[colorName].classList.remove('hidde-button')
+    }, 500)
+}
+
+//TODO: criar classe que começa o contador
+
+const showCPUMoves = () => {
+    CPUMoves.forEach(item => {
+        const colorName = offColorsNames[item]
+        turnOnLight(colorName)
+        console.log(item)
+        console.log(colorName)
+        console.log(offColorsNames)
+    })
+}
+
 const startGame = () => {
     setNewCPUMove()
+    setTimeout(showCPUMoves, 500)
     console.log(getMaxNumberOfMoves())
     console.log(getSpeedLimit())
 }
@@ -168,4 +191,4 @@ colorButtons.forEach(item => {
     })
 })
 
-console.log(errorLights)
+console.log()
