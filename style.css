@@ -227,10 +227,10 @@ h2.display-title {
 }
 
 .time-bar {
-    width: 30%;
+    width: 100%;
     height: 100%;
     background-color: #00fff2;
     border-radius: 20px;
     position: absolute;
-    left: 0;
+    right: 100%;
 }

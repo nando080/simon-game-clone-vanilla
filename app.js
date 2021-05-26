@@ -11,13 +11,13 @@ let speedLevel = 1
 let gameLevel = 1
 
 const numberOfMoves = [8, 14, 20, 31]
-const movementSpeedLimts = [700, 600, 500]
+const movementSpeedLimits = [1000, 800, 600]
 const maxSpeedLevel = 3
 const maxGameLevel = 4
 const minSpeedAndGameLevel = 1
 
 const CPUMoves = []
-const playerMoves = []
+const playerMoves = [1, 2, 3]
 
 const offColors = {
     green: document.querySelector('[data-js="green-light-off"]'),
@@ -64,12 +64,6 @@ const controlValues = {
     }
 }
 
-const increaseSpeed = () => {
-    if (speedLevel < maxSpeedLevel) {
-        speedLevel++
-    }
-}
-
 const renderValueOnToDisplay = (display, value) => {
     display.innerText = value
 }
@@ -80,34 +74,19 @@ const getSpeedLimit = () => movementSpeedLimts[speedLevel - 1]
 
 const generateRandomColorValue = () => Math.floor(Math.random() * 4)
 
-const setNewCPUMove = () => {
-    if (CPUMoves.length < getMaxNumberOfMoves()) {
+const getFullCPUSequence = () => {
+    for (let i = 0; i < getMaxNumberOfMoves(); i++) {
         CPUMoves.push(generateRandomColorValue())
     }
 }
 
-const receivePlayerMove = move => {
-    if (playerMoves.length < CPUMoves.length && isGameStarted){
-        playerMoves.push(move)
-    }
-}
-
-const compareMoves = () => {
-    CPUMoves.forEach((item, index) => {
-
-    })
-}
-
 const clearArrayMoves = () => {
-    const actualCPUMoves = CPUMoves.length
-    const actualPlayerMoves = playerMoves.length
-    for (let i = actualCPUMoves; i < 0; i--) {
+    while (CPUMoves.length > 0) {
         CPUMoves.pop()
     }
-    for (let i = actualPlayerMoves; i < 0; i--) {
-        playerMoves.pop()
+    while (playerMoves.length > 0) {
+        CPUMoves.pop()
     }
-    console.log(CPUMoves, playerMoves)
 }
 
 const showError = () => {
@@ -128,23 +107,44 @@ const turnOnLight = colorName => {
     }, 500)
 }
 
-//TODO: criar classe que começa o contador
+//! fix this function
 
 const showCPUMoves = () => {
-    CPUMoves.forEach(item => {
-        const colorName = offColorsNames[item]
-        turnOnLight(colorName)
-        console.log(item)
-        console.log(colorName)
-        console.log(offColorsNames)
-    })
+
+    let actualIndex = 0
+    
+    const intervalLight = () => {
+        const colorName = offColorsNames[CPUMoves[actualIndex]]
+        if (actualIndex < playerMoves.length) {
+            turnOnLight(colorName)
+            actualIndex++
+        } else {
+            return
+        }
+        setInterval(intervalLight, movementSpeedLimits[speedLevel])
+    }
+
+    setInterval(intervalLight, movementSpeedLimits[speedLevel])
+}
+
+//! to validate / timer function
+/* 
+const updateSpeedRate = Math.floor(1000 / 60)
+const initialPosition = 100
+
+const percentageDecreaseRate = Math.round((updateSpeedRate * initialPosition) / movementSpeedLimts[speedLevel - 1])
+
+let actualPosition = initialPosition */
+
+
+const gamePlay = () => {
+    getFullCPUSequence()
+    showCPUMoves()
 }
 
 const startGame = () => {
-    setNewCPUMove()
-    setTimeout(showCPUMoves, 500)
-    console.log(getMaxNumberOfMoves())
-    console.log(getSpeedLimit())
+    //clearArrayMoves()
+    gamePlay()
 }
 
 const initializeNewGame = () => {
