@@ -7,8 +7,10 @@ const timeBar = document.querySelector('.time-bar')
 const errorLights = document.querySelector('.lights-container-off')
 
 let isGameStarted = false
+let isPlayerTime = false
 let speedLevel = 1
 let gameLevel = 1
+let howManyMovesToShowNow = 1
 
 const numberOfMoves = [8, 14, 20, 31]
 const movementSpeedLimits = [1000, 800, 600]
@@ -38,25 +40,25 @@ const buttonSounds = {
 const offColorsNames = Object.entries(offColors).map(item => item[0])
 
 const controlValues = {
-    increaseSpeed () {
+    increaseSpeed() {
         if (speedLevel < maxSpeedLevel) {
             speedLevel++
             renderValueOnToDisplay(speedValue, speedLevel)
         }
     },
-    decreaseSpeed () {
+    decreaseSpeed() {
         if (speedLevel > minSpeedAndGameLevel) {
             speedLevel--
             renderValueOnToDisplay(speedValue, speedLevel)
         }
     },
-    increaseLevel () {
+    increaseLevel() {
         if (gameLevel < maxGameLevel) {
             gameLevel++
             renderValueOnToDisplay(levelValue, gameLevel)
         }
     },
-    decreaseLevel () {
+    decreaseLevel() {
         if (gameLevel > minSpeedAndGameLevel) {
             gameLevel--
             renderValueOnToDisplay(levelValue, gameLevel)
@@ -70,13 +72,25 @@ const renderValueOnToDisplay = (display, value) => {
 
 const getMaxNumberOfMoves = () => numberOfMoves[gameLevel - 1]
 
-const getSpeedLimit = () => movementSpeedLimts[speedLevel - 1]
+const getSpeedLimit = () => movementSpeedLimits[speedLevel - 1]
 
 const generateRandomColorValue = () => Math.floor(Math.random() * 4)
 
-const getFullCPUSequence = () => {
-    for (let i = 0; i < getMaxNumberOfMoves(); i++) {
-        CPUMoves.push(generateRandomColorValue())
+const setFullCPUSequence = () => {
+    if (!isGameStarted) {
+        for (let i = 0; i < getMaxNumberOfMoves(); i++) {
+            CPUMoves.push(generateRandomColorValue())
+        }
+    }
+}
+
+const updateHowManyMovesToShowNow = () => {
+    if (!isGameStarted) {
+        howManyMovesToShowNow = 1
+        return
+    }
+    if (howManyMovesToShowNow < CPUMoves.length) {
+        howManyMovesToShowNow++
     }
 }
 
@@ -107,51 +121,34 @@ const turnOnLight = colorName => {
     }, 500)
 }
 
-//! fix this function
-
 const showCPUMoves = () => {
-
-    let actualIndex = 0
-    
-    const intervalLight = () => {
-        const colorName = offColorsNames[CPUMoves[actualIndex]]
-        if (actualIndex < playerMoves.length) {
-            turnOnLight(colorName)
-            actualIndex++
-        } else {
-            return
+    if (isGameStarted) {
+        let actualColorIndex = 0
+        let getActualColorName = () => offColorsNames[CPUMoves[actualColorIndex]]
+        const actualColorIsNotTheLast = () => {
+            const isLast = (actualColorIndex < howManyMovesToShowNow) ? true : false
+            return isLast
         }
-        setInterval(intervalLight, movementSpeedLimits[speedLevel])
+        const showMovesInterval = setInterval(() => {
+            if (actualColorIsNotTheLast()) {
+                turnOnLight(getActualColorName())
+                actualColorIndex++
+            } else {
+                isPlayerTime = true
+                updateHowManyMovesToShowNow()
+                clearInterval(showMovesInterval)
+            }
+        }, getSpeedLimit())
     }
-
-    setInterval(intervalLight, movementSpeedLimits[speedLevel])
 }
 
-//! to validate / timer function
-/* 
-const updateSpeedRate = Math.floor(1000 / 60)
-const initialPosition = 100
-
-const percentageDecreaseRate = Math.round((updateSpeedRate * initialPosition) / movementSpeedLimts[speedLevel - 1])
-
-let actualPosition = initialPosition */
-
-
-const gamePlay = () => {
-    getFullCPUSequence()
-    showCPUMoves()
-}
-
-const startGame = () => {
-    //clearArrayMoves()
-    gamePlay()
-}
-
-const initializeNewGame = () => {
+const initializeGame = () => {
     if (!isGameStarted) {
-        buttonSounds['control'].play()
-        isGameStarted = !isGameStarted
-        startGame()
+        setFullCPUSequence()
+        howManyMovesToShowNow = 1
+        isGameStarted = true
+        console.log(CPUMoves)
+        showCPUMoves()
     }
 }
 
@@ -168,6 +165,7 @@ controlButtons.forEach(item => {
 startButton.addEventListener('mousedown', () => {
     if (!isGameStarted) {
         startButton.querySelector('.btn-start-img').src = './img/btn-start-on.svg'
+        buttonSounds['control'].play()
     }
 })
 
@@ -175,20 +173,4 @@ startButton.addEventListener('mouseup', () => {
     startButton.querySelector('.btn-start-img').src = './img/btn-start-off.svg'
 })
 
-startButton.addEventListener('click', initializeNewGame)
-
-colorButtons.forEach(item => {
-    item.addEventListener('click', () => {
-       if (isGameStarted) {
-        const buttonColor = `${item.dataset.color}`
-        const colorPosition = Number(offColors[buttonColor].dataset.position)
-        offColors[buttonColor].classList.add('hidde-button')
-        receivePlayerMove(colorPosition)
-        buttonSounds[buttonColor].play()
-        setTimeout(() => {
-            offColors[buttonColor].classList.remove('hidde-button')
-        }, 500)}
-    })
-})
-
-console.log()
+startButton.addEventListener('click', initializeGame)
